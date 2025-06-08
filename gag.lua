@@ -55,7 +55,7 @@ end
 
 if not foundGood then
     -- queue the same script on the next server
-    queue_on_teleport("loadstring(game:HttpGet('https://pastebin.com/raw/GKkSPxnn'))()")
-    -- hop to a new server
+    queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Tion-D/gag/refs/heads/main/gag.lua'))()")
+    wait(1)
     TeleportService:Teleport(game.PlaceId)
 end
