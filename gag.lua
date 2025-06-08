@@ -6,10 +6,10 @@ local Players = game:GetService("Players")
 local VirtualUser = game:GetService("VirtualUser")
 local localPlayer = Players.LocalPlayer
 
-localPlayer.Idled:Connect(function()
-    VirtualUser:CaptureController()
-    VirtualUser:ClickButton2(Vector2.new())
-end)
+-- localPlayer.Idled:Connect(function()
+--     VirtualUser:CaptureController()
+--     VirtualUser:ClickButton2(Vector2.new())
+-- end)
 
 local webhookURL = "https://discord.com/api/webhooks/1363752832913772544/B7bSWXh3uVzkiQ2ysIRDTEUsbcULN82nJ3dWFMIBBH-mpmdgelBVsgnDE6HSATpsTjfD"
 
@@ -62,7 +62,7 @@ for _, egg in ipairs(CollectionService:GetTagged("PetEggServer")) do
 end
 
 if not foundGood then
-    queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Tion-D/gag/refs/heads/main/gag.lua'))()")
     task.wait(5)
+    queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Tion-D/gag/refs/heads/main/gag.lua'))()")
     TeleportService:Teleport(game.PlaceId)
 end
