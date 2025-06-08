@@ -1,31 +1,41 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local CollectionService = game:GetService("CollectionService")
-local TeleportService   = game:GetService("TeleportService")
-local HttpService       = game:GetService("HttpService")
-print("hi")
--- your webhook URL here
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local VirtualUser = game:GetService("VirtualUser")
+local localPlayer = Players.LocalPlayer
+
+localPlayer.Idled:Connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+end)
+
 local webhookURL = "https://discord.com/api/webhooks/1363752832913772544/B7bSWXh3uVzkiQ2ysIRDTEUsbcULN82nJ3dWFMIBBH-mpmdgelBVsgnDE6HSATpsTjfD"
 
--- helper to send Discord embed
 local function sendPetEmbed(petName)
-    local payload = {
+    local payload = HttpService:JSONEncode({
         embeds = {{
-            title       = "🎉 Pet Hatched!",
+            title = "🎉 Pet Hatched!",
             description = "**" .. petName .. "** has just hatched!",
-            color       = 0x00FF00,
-            timestamp   = os.date("!%Y-%m-%dT%H:%M:%SZ")
+            color = 0x00FF00,
+            timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
         }}
-    }
-    HttpService:PostAsync(
-        webhookURL,
-        HttpService:JSONEncode(payload),
-        Enum.HttpContentType.ApplicationJson
-    )
+    })
+
+    request({
+        Url = webhookURL,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        },
+        Body = payload
+    })
 end
 
--- grab the pet-lookup table
+
 local hatchFn = getupvalue(
-                  getupvalue(
+                getupvalue(
                     getconnections(ReplicatedStorage.GameEvents.PetEggService.OnClientEvent)[1].Function,
                   1),
                 2
@@ -34,7 +44,7 @@ local eggPets = getupvalue(hatchFn, 2)
 
 local wantList = {
     "Disco Bee",
-    "Dragonfly",
+    "Dragonfly"
 }
 
 local foundGood = false
@@ -43,9 +53,7 @@ for _, egg in ipairs(CollectionService:GetTagged("PetEggServer")) do
         local petName = eggPets[egg:GetAttribute("OBJECT_UUID")]
         print(petName, "Review")
         if table.find(wantList, petName) then
-            -- highlight it in-game
             Instance.new("Highlight", egg)
-            -- notify Discord
             sendPetEmbed(petName)
             foundGood = true
             break
@@ -54,8 +62,7 @@ for _, egg in ipairs(CollectionService:GetTagged("PetEggServer")) do
 end
 
 if not foundGood then
-    -- queue the same script on the next server
-    queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/Tion-D/gag/refs/heads/main/gag.lua'))()")
-    wait(1)
+    --queue_on_teleport("loadstring(game:HttpGet('https://pastebin.com/raw/GKkSPxnn'))()")
+    task.wait(5)
     TeleportService:Teleport(game.PlaceId)
 end
