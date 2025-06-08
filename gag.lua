@@ -62,7 +62,7 @@ for _, egg in ipairs(CollectionService:GetTagged("PetEggServer")) do
 end
 
 if not foundGood then
-    --queue_on_teleport("loadstring(game:HttpGet('https://pastebin.com/raw/GKkSPxnn'))()")
+    queue_on_teleport("loadstring(game:HttpGet('https://pastebin.com/raw/GKkSPxnn'))()")
     task.wait(5)
     TeleportService:Teleport(game.PlaceId)
 end
