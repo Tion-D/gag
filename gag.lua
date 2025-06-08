@@ -2,7 +2,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local CollectionService = game:GetService("CollectionService")
 local TeleportService   = game:GetService("TeleportService")
 local HttpService       = game:GetService("HttpService")
-
+print("hi")
 -- your webhook URL here
 local webhookURL = "https://discord.com/api/webhooks/1363752832913772544/B7bSWXh3uVzkiQ2ysIRDTEUsbcULN82nJ3dWFMIBBH-mpmdgelBVsgnDE6HSATpsTjfD"
 
